@@ -1,0 +1,18 @@
+<div class="container">
+  <div *ngIf="editorConfig; else noCaso" class="editor-container">
+
+    <document-editor
+      [id]="'onlyoffice-editor'"
+      [documentServerUrl]="apiEndpoint"
+      [config]="editorConfig">
+    </document-editor>
+
+  </div>
+
+  <ng-template #noCaso>
+    <div class="placeholder">
+      <h2><mat-icon>info</mat-icon> No hay documento seleccionado</h2>
+      <p>Por favor, seleccione un caso en la "Bandeja de Casos" para ver su documento.</p>
+    </div>
+  </ng-template>
+</div>

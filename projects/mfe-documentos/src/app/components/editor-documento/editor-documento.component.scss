@@ -1,0 +1,15 @@
+.container, .editor-container {
+  height: 90vh; /* Ocupa casi toda la altura */
+  width: 100%;
+  display: flex;
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: #777;
+}

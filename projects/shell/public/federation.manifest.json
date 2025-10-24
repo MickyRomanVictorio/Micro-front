@@ -1,0 +1,5 @@
+{
+	"mfe-casos": "http://localhost:4201/remoteEntry.json",
+	"mfe-documentos": "http://localhost:4202/remoteEntry.json",
+	"mfe-admin": "http://localhost:4203/remoteEntry.json"
+}

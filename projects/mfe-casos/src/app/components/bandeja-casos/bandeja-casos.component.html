@@ -1,0 +1,7 @@
+<h1>Bandeja de Tareas del Fiscal</h1>
+<p>Casos que requieren su atención.</p>
+
+<app-casos-tabla
+  [casos]="(casos$ | async) ?? []"
+  (casoSeleccionado)="onCasoSeleccionado($event)">
+</app-casos-tabla>

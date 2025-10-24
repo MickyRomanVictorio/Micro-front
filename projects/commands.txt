@@ -1,0 +1,14 @@
+Terminal 0:
+ng build shared-lib --watch
+
+Terminal 1: (correrá en el puerto 4201)
+ng serve mfe-casos
+
+Terminal 2: (correrá en el puerto 4202)
+ng serve mfe-documentos
+
+Terminal 3: (correrá en el puerto 4203)
+ng serve mfe-admin
+
+Terminal 4: (correrá en el puerto 4200)
+ng serve shell

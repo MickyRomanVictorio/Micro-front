@@ -5,7 +5,7 @@ module.exports = withNativeFederation({
   name: 'mfe-admin',
 
   exposes: {
-    './Component': './projects/mfe-admin/src/app/app.component.ts',
+    './routes': './projects/mfe-admin/src/app/app.routes.ts',
   },
 
   shared: {
@@ -29,5 +29,5 @@ module.exports = withNativeFederation({
     // get the traditional behavior:
     ignoreUnusedDeps: true
   }
-  
+
 });

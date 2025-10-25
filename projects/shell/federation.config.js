@@ -22,6 +22,7 @@ module.exports = withNativeFederation({
   ],
 
   features: {
+    withESBuild: false,
     ignoreUnusedDeps: true
   }
 

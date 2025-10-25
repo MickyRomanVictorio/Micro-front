@@ -522,5 +522,8 @@
         }
       }
     }
-	}
+  },
+  "cli": {
+    "analytics": false
+  }
 }

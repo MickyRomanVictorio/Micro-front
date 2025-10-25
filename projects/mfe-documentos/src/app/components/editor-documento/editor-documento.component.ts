@@ -1,17 +1,19 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Caso, MessageBusService } from 'shared-lib';
-import { DocumentoService, OnlyOfficeConfig } from '../../services/documento.service';
-
-// 1. Importa el módulo del editor
-import { DocumentEditorModule, IConfig } from '@onlyoffice/document-editor-angular';
+import { Caso, Documento, MessageBusService } from 'shared-lib';
+import { DocumentoService, DocumentoSimulado } from '../../services/documento.service';
 import { CommonModule } from '@angular/common';
-import { MatIcon } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon'; // Importamos el módulo
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-editor-documento',
   standalone: true,
-  imports: [ CommonModule, DocumentEditorModule, MatIcon ],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatButtonModule
+  ],
   templateUrl: './editor-documento.component.html',
   styleUrl: './editor-documento.component.scss'
 })
@@ -21,73 +23,42 @@ export class EditorDocumentoComponent implements OnInit, OnDestroy {
   private documentoService = inject(DocumentoService);
   private busSubscription: Subscription | undefined;
 
-  // URL del servidor OnlyOffice en Docker
-  apiEndpoint = 'http://localhost:8081/';
-
-  // Configuración que se pasará al componente
-  editorConfig: IConfig | undefined;
-
-  estaCargando = false;
-
+  documentoData: DocumentoSimulado | undefined;
   casoSeleccionado: Caso | null = null;
 
+  // URL simulada del Document Server para mostrar en la demo
+  documentServerUrl = 'Integración SIMULADA: OnlyOffice Docs Cloud';
+
   ngOnInit(): void {
-    // 3. (Rubro 06) Nos suscribimos al evento del MessageBus
+    // Nos suscribimos al evento del MessageBus (ReplaySubject)
     this.busSubscription = this.messageBus.listen<Caso>('CASO_SELECCIONADO')
       .subscribe(caso => {
-        console.log('MFE-DOCUMENTOS recibió el caso:', caso);
         this.casoSeleccionado = caso;
-        this.cargarDocumento(caso);
+        this.cargarDocumentoSimulado(caso);
       });
   }
 
-  cargarDocumento(caso: Caso): void {
+  cargarDocumentoSimulado(caso: Caso): void {
     if (!caso.documentos || caso.documentos.length === 0) {
-      console.error('El caso no tiene documentos para editar');
-      this.editorConfig = undefined; // Limpiamos la config anterior
+      this.documentoData = undefined;
       return;
     }
 
-    this.estaCargando = true;
-    this.editorConfig = undefined;
+    const primerDocumento: Documento = caso.documentos[0];
 
-    // 4. (Para este demo, cargamos el *primer* documento del caso)
-    const docId = caso.documentos[0].id;
-
-    // 5. Llamamos al servicio de este MFE
-    this.documentoService.getConfig(docId).subscribe({
-      next: backendConfig => {
-        console.log('Configuración recibida del backend:', backendConfig);
-
-        // 6. Armamos la configuración final para el componente de Angular
-        this.editorConfig = {
-          ...backendConfig,
-          document: {
-            ...backendConfig.document,
-            permissions: {
-              edit: backendConfig.editorConfig.mode === 'edit',
-              review: true
-            }
-          },
-          editorConfig: {
-            ...backendConfig.editorConfig,
-            customization: {
-            }
-          },
-          height: '100%'
-        };
-        this.estaCargando = false;
-      },
-      error: err => {
-        console.error('Error al cargar la configuración del documento:', err);
-        this.estaCargando = false;
-        // Aquí podrías mostrar un mensaje de error al usuario
-      }
+    // 1. Llamar al servicio simulado (simula la llamada al backend)
+    this.documentoService.getConfigSimulada(primerDocumento.id, primerDocumento.nombreArchivo).subscribe(data => {
+      this.documentoData = data;
     });
   }
 
+  simularGuardado(): void {
+    // Aquí se demostraría la función de Microfrontend: publicar un evento
+    // que el Host o el MFE de Casos podría usar para cambiar el estado.
+    alert('Documento guardado y listo para cambiar de estado en el proceso fiscal.');
+  }
+
   ngOnDestroy(): void {
-    // Limpiamos la suscripción
     this.busSubscription?.unsubscribe();
   }
 }

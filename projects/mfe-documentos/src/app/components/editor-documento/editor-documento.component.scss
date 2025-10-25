@@ -1,15 +1,84 @@
-.container, .editor-container {
-  height: 90vh; /* Ocupa casi toda la altura */
+.container {
+  height: 90vh;
   width: 100%;
-  display: flex;
 }
 
-.placeholder {
+.placeholder-msg {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 100%;
-  color: #777;
+  text-align: center;
+  color: #999;
+
+  mat-icon {
+    font-size: 64px;
+    height: 64px;
+    width: 64px;
+    margin-bottom: 15px;
+  }
+}
+
+.document-viewer {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.document-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  mat-icon {
+    margin-right: 10px;
+    color: #3f51b5; /* primary */
+  }
+}
+
+.document-content {
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+.pdf-placeholder {
+  height: 500px;
+  background-color: #f0f4f7;
+  border: 2px dashed #b0c4de;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+  color: #555;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.placeholder-text {
+  font-weight: bold;
+  color: #3f51b5;
+  mat-icon {
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+}
+
+.integration-status {
+  color: green;
+  font-size: 0.9em;
+  margin-top: 5px;
+  mat-icon {
+    vertical-align: middle;
+    font-size: 18px;
+    color: green;
+    margin-right: 5px;
+  }
+}
+
+.action-bar {
+  text-align: right;
 }

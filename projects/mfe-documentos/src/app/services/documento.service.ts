@@ -1,39 +1,29 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
-// Esta será la estructura del JSON que nos devuelve el backend
-export interface OnlyOfficeConfig {
-  type: string;
-  documentType: string;
-  document: {
-    title: string;
-    url: string;
-    fileType: string;
-    key: string;
-  };
-  editorConfig: {
-    user: { id: string; name: string; };
-    mode: string;
-    callbackUrl: string;
-  };
+// Estructura mínima de la configuración simulada
+export interface DocumentoSimulado {
+  title: string;
+  url: string; // URL simulada
+  isEditable: boolean;
 }
-
-const API_URL = 'http://localhost:8090/api/documentos';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentoService {
-  private http = inject(HttpClient);
 
   /**
-   * Obtiene la configuración de OnlyOffice para un documento específico
+   * Simula la obtención de la configuración del documento (sin llamar a OnlyOffice)
    */
-  getConfig(documentoId: string): Observable<OnlyOfficeConfig> {
-    return this.http.get<OnlyOfficeConfig>(
-      `${API_URL}/${documentoId}/config`,
-      { withCredentials: true }
-    );
+  getConfigSimulada(documentoId: string, docNombre: string): Observable<DocumentoSimulado> {
+    const urlSimulada = `/assets/documentos/${documentoId}.pdf`;
+
+    // Retorna un Observable que emite los datos inmediatamente (of)
+    return of({
+      title: docNombre,
+      url: urlSimulada,
+      isEditable: true // Es editable si el estado lo permite
+    });
   }
 }

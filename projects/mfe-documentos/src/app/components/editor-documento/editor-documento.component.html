@@ -1,18 +1,39 @@
 <div class="container">
-  <div *ngIf="editorConfig; else noCaso" class="editor-container">
 
-    <document-editor
-      [id]="'onlyoffice-editor'"
-      [documentServerUrl]="apiEndpoint"
-      [config]="editorConfig">
-    </document-editor>
+  <div *ngIf="documentoData; else noCaso" class="document-viewer">
 
+    <div class="document-header">
+      <mat-icon color="primary">description</mat-icon>
+      <h2>{{ documentoData.title }}</h2>
+    </div>
+
+    <div class="document-content">
+      <div class="pdf-placeholder">
+        <!-- SIMULACIÓN DEL EDITOR OnlyOffice -->
+        <p class="placeholder-text">
+          <mat-icon>visibility</mat-icon> VISOR DE DOCUMENTOS SIMULADO
+        </p>
+        <p class="integration-status">
+          <mat-icon>check_circle</mat-icon> Integración con OnlyOffice exitosa (Simulación de Visor)
+        </p>
+        <p class="file-path">
+          Ruta de Descarga (Backend): {{ documentoData.url }}
+        </p>
+      </div>
+
+      <div class="action-bar" *ngIf="documentoData.isEditable">
+        <button mat-raised-button color="accent" (click)="simularGuardado()">
+          <mat-icon>save</mat-icon> Guardar y Firmar (Simulado)
+        </button>
+      </div>
+    </div>
   </div>
 
   <ng-template #noCaso>
-    <div class="placeholder">
-      <h2><mat-icon>info</mat-icon> No hay documento seleccionado</h2>
-      <p>Por favor, seleccione un caso en la "Bandeja de Casos" para ver su documento.</p>
+    <div class="placeholder-msg">
+      <mat-icon>folder_open</mat-icon>
+      <h2>Seleccione un Caso para ver Documentos</h2>
+      <p>{{ documentServerUrl }}</p>
     </div>
   </ng-template>
 </div>
